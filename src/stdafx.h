@@ -22,6 +22,7 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
+#ifndef __EMSCRIPTEN__
 #define NOMINMAX
 #include <windows.h>
 #include <windowsx.h>
@@ -48,7 +49,6 @@ namespace fs = std::filesystem;
 #include <xapofx.h>
 #endif
 
-
 #ifdef _WIN64
 constexpr auto X3D_HRTF_HOOK_DLL = L"hrtf/x64/x3daudio1_7.dll";
 #else
@@ -64,6 +64,17 @@ using Microsoft::WRL::ComPtr;
 #pragma comment(lib, "d3d11.lib")
 #include <DirectXMath.h>
 using namespace DirectX;
+#else
+// Minimal Win32 type stubs for Emscripten builds.
+using HINSTANCE = void*;
+using HWND = void*;
+using WPARAM = unsigned long;
+using LPARAM = long;
+using LRESULT = long;
+using UINT = unsigned int;
+#define CALLBACK
+#define WINAPI
+#endif
 
 #include "SharedConstants.h"
 #include "Utils.h"
