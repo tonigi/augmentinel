@@ -20,11 +20,13 @@ This document outlines the initial steps required to port **Augmentinel** to run
    When compiling with Emscripten the Windows headers are unavailable. Create minimal type aliases so the code can be compiled without the Win32 headers.
 5. **Add a web build script.**
    A `build_web.sh` helper script compiles the stub modules into `augmentinel.html`, `augmentinel.js` and `augmentinel.wasm` using `em++`.
+   The script automatically sources the Emscripten SDK environment from a local `emsdk/` directory or a global `/usr/local/emsdk` install.
 
 ## Next Steps
 
 * Replace the Win32 windowing and message loop with an event loop driven by `emscripten_set_main_loop`.
 * Migrate rendering from D3D11 to WebGL via OpenGL ES 3.0.
+  A stub renderer now creates a WebGL2 context and clears the screen each frame.
 * Replace XAudio2 based audio with the Emscripten WebAudio API.
 * Ensure required assets are preloaded using the Emscripten virtual file system.
 
