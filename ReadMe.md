@@ -32,7 +32,12 @@ For more details see: https://simonowen.com/spectrum/augmentinel/
 Building currently requires Visual Studio 2019 or later.
 
 The current code uses the Win32 and D3D11 APIs so it's not yet portable to
-non-Windows platforms. It's hoped that will change in the future.
+non-Windows platforms. Experimental work has begun on an
+[Emscripten](https://emscripten.org/) port to run the game in a web browser,
+with early `src/game` and `src/render` modules providing platform-neutral
+stubs. See `docs/emscripten-port.md` for the current roadmap.
+`build_web.sh` invokes `em++` to compile these stubs into `augmentinel.html`
+for experimentation.
 
 ## License
 

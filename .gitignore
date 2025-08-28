@@ -7,3 +7,7 @@ desktop.ini
 *.vcxproj.user
 /temp/
 /Releases
+emsdk/
+augmentinel.html
+augmentinel.js
+augmentinel.wasm
