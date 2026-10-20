@@ -7,7 +7,7 @@
 <link rel="icon" href="data:,">
 <title>Augmentinel · The Sentinel</title>
 <style>
-:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#101b25;color:#e7e9df}body{max-width:1120px;margin:0 auto;padding:24px}header{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}h1{font-size:24px;letter-spacing:.12em}header p{color:#a9b9bb;font-size:14px}canvas{display:block;width:100%;aspect-ratio:16/10;background:#000;outline:none;border:1px solid #46635c}#status{color:#b9d5ba;min-height:1.5em}button{background:#c6db85;color:#18221b;border:0;border-radius:4px;padding:10px 18px;font:inherit;cursor:pointer}button:focus-visible{outline:3px solid white;outline-offset:3px}.bar{display:flex;gap:12px;margin:16px 0;align-items:center;flex-wrap:wrap}details{line-height:1.7;color:#b7c9c8}summary{cursor:pointer}kbd{color:#eef3d7}footer{font-size:12px;color:#8ca5a6;margin-top:24px}a{color:inherit}body[data-failed=true] #status{color:#ff9999}canvas:fullscreen{width:100vw;height:100vh;border:0}
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#101b25;color:#e7e9df}body{max-width:1120px;margin:0 auto;padding:24px}header{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}h1{font-size:24px;letter-spacing:.12em}header p{color:#a9b9bb;font-size:14px}canvas{display:block;width:100%;aspect-ratio:16/10;background:#000;outline:none;border:1px solid #46635c}#status{color:#b9d5ba;min-height:1.5em}button{background:#c6db85;color:#18221b;border:0;border-radius:4px;padding:10px 18px;font:inherit;cursor:pointer}button:focus-visible{outline:3px solid white;outline-offset:3px}.bar{display:flex;gap:12px;margin:16px 0;align-items:center;flex-wrap:wrap}details{line-height:1.7;color:#b7c9c8}summary{cursor:pointer}kbd{display:inline-block;min-width:1.7em;padding:3px 8px;border:1px solid #71868b;border-bottom-width:3px;border-radius:5px;background:#263944;color:#f4f7e9;font:600 14px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;text-align:center;white-space:nowrap}.shortcuts{margin:24px 0;padding:20px;border:1px solid #46635c;border-radius:8px;background:#152630}.shortcuts h2{margin:0 0 18px;font-size:20px}.shortcut-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:24px}.shortcut-group h3{margin:0 0 12px;color:#c6db85;font-size:16px}.shortcut-group dl{margin:0}.shortcut-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid #304650}.shortcut-row dt{font-size:16px;line-height:1.5}.shortcut-row dd{margin:0;flex-shrink:0}.shortcut-note{margin:6px 0 14px;color:#c0d0d0;font-size:14px;line-height:1.6}.shortcuts>p{margin:18px 0 0;color:#c0d0d0;font-size:14px;line-height:1.6}footer{font-size:12px;color:#8ca5a6;margin-top:24px}a{color:inherit}body[data-failed=true] #status{color:#ff9999}canvas:fullscreen{width:100vw;height:100vh;border:0}
 </style>
 </head>
 <body>
@@ -15,12 +15,45 @@
 <p id="status" role="status">Loading WebAssembly and game assets…</p>
 <canvas id="canvas" width="1120" height="700" tabindex="0" aria-label="Augmentinel game. Press Enter to continue; click for mouse look."></canvas>
 <div class="bar"><button id="play" type="button">Play / capture mouse</button><button id="fullscreen" type="button">Fullscreen</button><span>Esc releases the mouse.</span></div>
-<details open><summary>How to play</summary>
+<section class="shortcuts" aria-labelledby="shortcuts-title">
+<h2 id="shortcuts-title">Keyboard &amp; mouse shortcuts</h2>
+<div class="shortcut-groups">
+<div class="shortcut-group">
+<h3>Start &amp; look around</h3>
+<dl>
+<div class="shortcut-row"><dt>Continue / select landscape</dt><dd><kbd>Enter</kbd></dd></div>
+<div class="shortcut-row"><dt>Select landscape / turn</dt><dd><kbd>←</kbd> <kbd>→</kbd></dd></div>
+<div class="shortcut-row"><dt>Look up / down</dt><dd><kbd>↑</kbd> <kbd>↓</kbd></dd></div>
+<div class="shortcut-row"><dt>Turn around</dt><dd><kbd>U</kbd></dd></div>
+<div class="shortcut-row"><dt>Release mouse</dt><dd><kbd>Esc</kbd></dd></div>
+</dl>
+<p class="shortcut-note">Click the game to look around with the mouse.</p>
+</div>
+<div class="shortcut-group">
+<h3>Game actions</h3>
+<dl>
+<div class="shortcut-row"><dt>Absorb</dt><dd><kbd>A</kbd></dd></div>
+<div class="shortcut-row"><dt>Create tree</dt><dd><kbd>T</kbd></dd></div>
+<div class="shortcut-row"><dt>Create boulder</dt><dd><kbd>B</kbd></dd></div>
+<div class="shortcut-row"><dt>Create robot</dt><dd><kbd>R</kbd></dd></div>
+<div class="shortcut-row"><dt>Transfer</dt><dd><kbd>Q</kbd></dd></div>
+<div class="shortcut-row"><dt>Hyperspace</dt><dd><kbd>H</kbd></dd></div>
+<div class="shortcut-row"><dt>Pause</dt><dd><kbd>P</kbd></dd></div>
+</dl>
+<p class="shortcut-note">Mouse: left click to absorb, right click for a boulder, middle click for a robot.</p>
+</div>
+<div class="shortcut-group">
+<h3>Audio</h3>
+<dl>
+<div class="shortcut-row"><dt>Music</dt><dd><kbd>M</kbd></dd></div>
+<div class="shortcut-row"><dt>Tunes</dt><dd><kbd>N</kbd></dd></div>
+<div class="shortcut-row"><dt>Music volume</dt><dd><kbd>+</kbd> <kbd>−</kbd></dd></div>
+</dl>
+<p class="shortcut-note">Progress and preferences save in this browser.</p>
+</div>
+</div>
 <p>Absorb trees and gain height to reach the Sentinel. Create a robot on higher ground, then transfer into it. Keep out of the Sentinel’s gaze.</p>
-<p><kbd>Enter</kbd> advances the title and selects a landscape. <kbd>← →</kbd> select landscapes or turn; <kbd>↑ ↓</kbd> look up/down. Click the game for mouse look.<br>
-<kbd>A / left click</kbd> absorb · <kbd>T</kbd> tree · <kbd>B / right click</kbd> boulder · <kbd>R / middle click</kbd> robot · <kbd>Q</kbd> transfer · <kbd>H</kbd> hyperspace · <kbd>U</kbd> turn around · <kbd>P</kbd> pause.<br>
-<kbd>M</kbd> music · <kbd>N</kbd> tunes · <kbd>+ / −</kbd> music volume. Progress and preferences save in this browser.</p>
-</details>
+</section>
 <footer>Augmentinel by Simon Owen · Browser port uses Emscripten, WebGL 2 and Web Audio · <a href="https://github.com/tonigi/augmentinel">Source / GPLv3</a>. Desktop keyboard and mouse required. VR is available in the Windows version.</footer>
 <script>
 var Module={
