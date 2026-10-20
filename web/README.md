@@ -24,6 +24,19 @@ Configure the server to send `.wasm` with `application/wasm`. No backend, API ke
 pthreads, or cross-origin isolation headers are required. Build outputs remain
 inside ignored `build-web/`.
 
+## GitHub Pages
+
+The `Build and deploy WebAssembly` workflow builds pushes to `wasm` with
+Emscripten 3.1.69 and deploys the static app to GitHub Pages. Pull requests
+targeting `wasm` build an artifact without deploying. Manual workflow runs
+deploy only when run on `wasm`.
+
+In the repository's **Settings → Pages**, set **Source** to **GitHub Actions**.
+If the `github-pages` environment restricts deployment branches, allow `wasm`.
+Push the workflow to `wasm` to trigger the first deployment; its deployment job
+reports the site URL (normally `https://tonigi.github.io/augmentinel/`). No
+personal access token or additional repository secret is needed.
+
 For the Debian Codex cloud machine, `./web/bootstrap-cloud.sh` installs the tools
 under `/workspace/.tools` without root access, then builds the application.
 Future shells can run `source /workspace/.tools/activate-web.sh`. Tool downloads
