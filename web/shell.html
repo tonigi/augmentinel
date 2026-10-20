@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101b25">
+<link rel="icon" href="data:,">
+<title>Augmentinel · The Sentinel</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#101b25;color:#e7e9df}body{max-width:1120px;margin:0 auto;padding:24px}header{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}h1{font-size:24px;letter-spacing:.12em}header p{color:#a9b9bb;font-size:14px}canvas{display:block;width:100%;aspect-ratio:16/10;background:#000;outline:none;border:1px solid #46635c}#status{color:#b9d5ba;min-height:1.5em}button{background:#c6db85;color:#18221b;border:0;border-radius:4px;padding:10px 18px;font:inherit;cursor:pointer}button:focus-visible{outline:3px solid white;outline-offset:3px}.bar{display:flex;gap:12px;margin:16px 0;align-items:center;flex-wrap:wrap}details{line-height:1.7;color:#b7c9c8}summary{cursor:pointer}kbd{color:#eef3d7}footer{font-size:12px;color:#8ca5a6;margin-top:24px}a{color:inherit}body[data-failed=true] #status{color:#ff9999}canvas:fullscreen{width:100vw;height:100vh;border:0}
+</style>
+</head>
+<body>
+<header><h1>AUGMENTINEL</h1><p>The Sentinel, in your browser</p></header>
+<p id="status" role="status">Loading WebAssembly and game assets…</p>
+<canvas id="canvas" width="1120" height="700" tabindex="0" aria-label="Augmentinel game. Press Enter to continue; click for mouse look."></canvas>
+<div class="bar"><button id="play" type="button">Play / capture mouse</button><button id="fullscreen" type="button">Fullscreen</button><span>Esc releases the mouse.</span></div>
+<details open><summary>How to play</summary>
+<p>Absorb trees and gain height to reach the Sentinel. Create a robot on higher ground, then transfer into it. Keep out of the Sentinel’s gaze.</p>
+<p><kbd>Enter</kbd> advances the title and selects a landscape. <kbd>← →</kbd> select landscapes or turn; <kbd>↑ ↓</kbd> look up/down. Click the game for mouse look.<br>
+<kbd>A / left click</kbd> absorb · <kbd>T</kbd> tree · <kbd>B / right click</kbd> boulder · <kbd>R / middle click</kbd> robot · <kbd>Q</kbd> transfer · <kbd>H</kbd> hyperspace · <kbd>U</kbd> turn around · <kbd>P</kbd> pause.<br>
+<kbd>M</kbd> music · <kbd>N</kbd> tunes · <kbd>+ / −</kbd> music volume. Progress and preferences save in this browser.</p>
+</details>
+<footer>Augmentinel by Simon Owen · Browser port uses Emscripten, WebGL 2 and Web Audio · <a href="https://github.com/tonigi/augmentinel">Source / GPLv3</a>. Desktop keyboard and mouse required. VR is available in the Windows version.</footer>
+<script>
+var Module={
+ canvas:document.getElementById('canvas'),
+ setStatus:function(text){if(text)document.getElementById('status').textContent=text;},
+ print:console.log,
+ printErr:console.error,
+ onAbort:function(reason){Module.setStatus('Unable to start: '+reason);document.body.dataset.failed='true';}
+};
+const canvas=Module.canvas;
+function resize(){const dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(canvas.clientWidth*dpr);canvas.height=Math.round(canvas.clientHeight*dpr);}
+new ResizeObserver(resize).observe(canvas);resize();
+canvas.addEventListener('contextmenu',e=>e.preventDefault());
+canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();Module.setStatus('Graphics context lost. Reload the page to restart.');document.body.dataset.failed='true';});
+document.getElementById('play').onclick=()=>{canvas.focus();if(Module.audio)Module.audio.resume();canvas.requestPointerLock();};
+document.getElementById('fullscreen').onclick=()=>{canvas.requestFullscreen().catch(e=>Module.setStatus(e.message));};
+</script>
+{{{ SCRIPT }}}
+</body></html>

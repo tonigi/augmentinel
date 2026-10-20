@@ -1,3 +1,6 @@
+#ifdef __EMSCRIPTEN__
+#include "../web/Platform.h"
+#else
 #pragma once
 #define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING	// ToDo: switch to ANSI for portability?
 
@@ -68,3 +71,5 @@ using namespace DirectX;
 #include "SharedConstants.h"
 #include "Utils.h"
 #include "Sentinel.h"
+
+#endif

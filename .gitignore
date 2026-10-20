@@ -7,3 +7,8 @@ desktop.ini
 *.vcxproj.user
 /temp/
 /Releases
+
+# Emscripten/CMake outputs
+/build-web/
+/web/node_modules/
+/web/test-results/

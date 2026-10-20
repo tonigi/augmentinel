@@ -359,7 +359,7 @@ void Spectrum::Hook(uint16_t address, uint8_t expected_opcode, HookFunction fn)
 	if (m_mem[address] != expected_opcode)
 	{
 		DebugBreak();
-		throw std::exception("Snapshot is incompatible with code hooks.");
+		throw std::runtime_error("Snapshot is incompatible with code hooks.");
 	}
 
 	HookData new_hook{};
@@ -396,7 +396,7 @@ void Spectrum::OnHook(uint16_t address)
 
 		// Fail hooking of unusual instructions, including block repeats.
 		if (Z80_PC == address)
-			throw std::exception("Failed to single-step past hooked instruction");
+			throw std::runtime_error("Failed to single-step past hooked instruction");
 	}
 	else
 	{

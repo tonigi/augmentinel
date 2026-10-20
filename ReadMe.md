@@ -29,10 +29,13 @@ For more details see: https://simonowen.com/spectrum/augmentinel/
 
 ## Building
 
-Building currently requires Visual Studio 2019 or later.
+The Windows version requires Visual Studio 2019 or later and uses Win32 and
+Direct3D 11.
 
-The current code uses the Win32 and D3D11 APIs so it's not yet portable to
-non-Windows platforms. It's hoped that will change in the future.
+A flat-screen browser version builds with Emscripten/WebAssembly and WebGL 2.
+See [web/README.md](web/README.md) for prerequisites, build commands, controls,
+and browser tests. The browser target reuses the original game logic and CPU
+emulation; VR remains available in the Windows version.
 
 ## License
 

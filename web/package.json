@@ -1,0 +1,7 @@
+{
+  "name": "augmentinel-browser-tests",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": { "test": "node smoke.cjs" },
+  "devDependencies": { "playwright": "1.62.1" }
+}

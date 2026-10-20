@@ -1,5 +1,8 @@
 #pragma once
 
+#ifdef __EMSCRIPTEN__
+std::vector<uint8_t> FileContents(const std::wstring& filename);
+#else
 void Fail(HRESULT hr, LPCWSTR pszOperation);
 fs::path ModulePath(HMODULE hmod = NULL);
 fs::path ModuleDirectory(HMODULE hmod = NULL);
@@ -7,6 +10,7 @@ fs::path WorkingDirectory();
 std::vector<uint8_t> FileContents(const std::wstring& filename);
 std::wstring WindowText(HWND hwnd);
 
+#endif
 
 template <typename T>
 void aspect_correct(T& current_width, T& current_height, const float aspect_ratio)

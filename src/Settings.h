@@ -10,6 +10,10 @@ int GetSetting(const std::wstring& key, int default_value, const std::wstring& s
 bool GetFlag(const std::wstring& key, bool default_value, const std::wstring& section = DEFAULT_SECTION);
 void RemoveSetting(const std::wstring& key, const std::wstring& section = DEFAULT_SECTION);
 
+#ifdef __EMSCRIPTEN__
+void WriteSetting(const std::wstring& key, const std::wstring& value, const std::wstring& section);
+#endif
+
 template<typename T>
 void SetSetting(const std::wstring& key, const T& value, const std::wstring& section = DEFAULT_SECTION)
 {
@@ -17,5 +21,9 @@ void SetSetting(const std::wstring& key, const T& value, const std::wstring& sec
 	ss << value;
 
 	assert(!settings_path.empty());
+#ifdef __EMSCRIPTEN__
+	WriteSetting(key, ss.str(), section);
+#else
 	WritePrivateProfileString(section.c_str(), key.c_str(), ss.str().c_str(), settings_path.c_str());
+#endif
 }

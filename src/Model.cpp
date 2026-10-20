@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Model.h"
 
+Model::Model() = default;
+
 /*static*/ Model Model::CreateBlock(float width, float height, float depth, uint32_t colour_idx, ModelType type)
 {
 	auto w = width / 2;

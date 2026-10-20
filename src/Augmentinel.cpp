@@ -1,12 +1,16 @@
 #include "stdafx.h"
 #include "resource.h"
+#ifndef __EMSCRIPTEN__
 #include "Application.h"
+#endif
 #include "Augmentinel.h"
 #include "Action.h"
 #include "Audio.h"
 #include "View.h"
+#ifndef __EMSCRIPTEN__
 #include "VRView.h"
 #include "OpenVR.h"
+#endif
 #include "Settings.h"
 
 constexpr auto MAX_STATE_FRAMES = 1000;		// max emulated frames in the current state.
@@ -141,7 +145,7 @@ Augmentinel::Augmentinel(std::shared_ptr<View>& pView, std::shared_ptr<Audio>& p
 		if (p.path().extension() == ".wav")
 		{
 			pAudio->LoadWAV(p.path());
-			music_files.push_back(p.path().filename());
+			music_files.push_back(p.path().filename().wstring());
 		}
 	}
 
@@ -382,7 +386,7 @@ void Augmentinel::Frame(float fElapsed)
 
 		// Limit the number of emulated frames to advance beyond reset state.
 		if (!RunUntilStateChange())
-			throw std::exception("Failed to reach title screen.\n\nSnapshot not saved at controls menu?");
+			throw std::runtime_error("Failed to reach title screen.\n\nSnapshot not saved at controls menu?");
 
 		break;
 	}
@@ -439,8 +443,12 @@ void Augmentinel::Frame(float fElapsed)
 		case 1:
 			if (m_pView->InputAction(Action::Quit))
 			{
-				m_pView->SetEffect(ViewEffect::Fade, 1.0f);
+#ifdef __EMSCRIPTEN__
+                EM_ASM({ if (document.pointerLockElement) document.exitPointerLock(); });
+#else
+                m_pView->SetEffect(ViewEffect::Fade, 1.0f);
 				PostQuitMessage(0);
+#endif
 			}
 			else if (m_pView->InputAction(Action::TitleContinue))
 				m_substate++;
@@ -453,7 +461,7 @@ void Augmentinel::Frame(float fElapsed)
 				break;
 
 			if (!RunUntilStateChange())
-				throw std::exception("Failed to reach landscape preview.\n\nPlease report this bug!");
+				throw std::runtime_error("Failed to reach landscape preview.\n\nPlease report this bug!");
 
 			break;
 		}
@@ -624,7 +632,7 @@ void Augmentinel::Frame(float fElapsed)
 			m_landscape.rot.y = 0.0f;
 
 			if (!RunUntilStateChange())
-				throw std::exception("Failed to reach main game.\n\nPlease report this bug with landscape number.");
+				throw std::runtime_error("Failed to reach main game.\n\nPlease report this bug with landscape number.");
 
 			break;
 		}
@@ -1858,6 +1866,7 @@ void Augmentinel::OnSoundEffect(int effect_number, int idx)
 	}
 }
 
+#ifndef __EMSCRIPTEN__
 bool AddToolTip(HWND hwndControl, LPCWSTR pszText)
 {
 	auto hwndTip = CreateWindowEx(
@@ -2086,3 +2095,5 @@ static INT_PTR CALLBACK OptionsDialogProc(HWND hdlg, UINT uMsg, WPARAM wParam, L
 {
 	DialogBox(hinst, MAKEINTRESOURCE(IDD_OPTIONS), hwndParent, OptionsDialogProc);
 }
+
+#endif

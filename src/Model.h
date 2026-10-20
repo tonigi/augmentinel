@@ -1,6 +1,10 @@
 #pragma once
 #include "Vertex.h"
+#ifdef __EMSCRIPTEN__
+#include "../web/WebBuffer.h"
+#else
 #include "BufferHeap.h"
+#endif
 
 enum class ModelType : uint8_t
 {
@@ -22,7 +26,7 @@ class Model
 public:
 	static Model CreateBlock(float width, float height, float depth, uint32_t colour_idx, ModelType type);
 
-	Model() = default;
+	Model();
 	Model(
 		std::shared_ptr<std::vector<Vertex>>& pVertices,
 		std::shared_ptr<std::vector<uint32_t>>& pIndices,
@@ -51,11 +55,16 @@ public:
 
 	std::shared_ptr<std::vector<Vertex>> m_pVertices;
 	std::shared_ptr<std::vector<uint32_t>> m_pIndices;
+#ifdef __EMSCRIPTEN__
+	std::shared_ptr<WebBuffer> m_pHeapVertices;
+	std::shared_ptr<WebBuffer> m_pHeapIndices;
+#else
 	std::shared_ptr<D3D11HeapAllocation> m_pHeapVertices;
 	std::shared_ptr<D3D11HeapAllocation> m_pHeapIndices;
-	BoundingBox m_boundingBox;
 
 	ComPtr<ID3D11VertexShader> m_pVertexShader;
 	ComPtr<ID3D11PixelShader> m_pPixelShader;
+#endif
+	BoundingBox m_boundingBox;
 };
 

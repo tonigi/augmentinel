@@ -1,3 +1,6 @@
+#ifdef __EMSCRIPTEN__
+#include "../web/WebAudio.h"
+#else
 #pragma once
 
 template <typename T>
@@ -50,3 +53,5 @@ protected:
 	std::map<std::wstring, std::pair<std::vector<uint8_t>, std::vector<uint8_t>>> m_soundBank;
 	std::vector<Sound> m_playingSounds;
 };
+
+#endif

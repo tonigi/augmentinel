@@ -17,8 +17,11 @@ public:
 
 	void Render(IScene* pScene) final override;
 	void Frame(float elapsed_seconds) final override;
+	GameState State() const { return m_state; }
 
+#ifndef __EMSCRIPTEN__
 	static void Options(HINSTANCE hinst, HWND hwndParent);
+#endif
 
 protected:
 	void PlayTune(const std::wstring& filename);

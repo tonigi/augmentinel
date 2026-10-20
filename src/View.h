@@ -1,3 +1,6 @@
+#ifdef __EMSCRIPTEN__
+#include "../web/WebView.h"
+#else
 #pragma once
 #include "Action.h"
 #include "Camera.h"
@@ -182,3 +185,5 @@ protected:
 	std::map<int, KeyState> m_keys;
 	std::map<Action, std::vector<int>> m_key_bindings;
 };
+
+#endif
